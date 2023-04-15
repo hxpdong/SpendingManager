@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:background="#ECF0F1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/btnInfoApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#0099FF"
+            app:srcCompat="@android:drawable/ic_dialog_info" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Spending Manager"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="#0099FF"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="------login------"
+            android:textSize="20dp"
+            android:textStyle="italic|bold"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginHorizontal="30dp"
+            android:paddingHorizontal="10dp"
+            android:background="#FFF"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtLginUsername"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginHorizontal="30dp"
+            android:paddingHorizontal="10dp"
+            android:background="#FFF"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtLginPassword"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot password"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:paddingHorizontal="50dp"
+            android:id="@+id/sendResetPasswd"
+            android:textColor="#0099FF"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Log In"
+            android:textAllCaps="false"
+            android:backgroundTint="#0099FF"
+            android:id="@+id/btnLogin"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have account?"
+            android:textStyle="italic"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Account"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/toRegister"
+            android:textColor="#0099FF"/>
+    </LinearLayout>
+
+</LinearLayout>

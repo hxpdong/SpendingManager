@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RegisterActivity"
+    android:background="#ECF0F1">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/btnTurnMain">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ECF0F1"
+            android:layout_marginVertical="20dp"
+            android:layout_marginLeft="20dp"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Have account? Login"
+            android:textSize="20dp"
+            android:textColor="#0099FF"
+            android:layout_marginVertical="20dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Register"
+            android:textSize="25dp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center"
+            android:gravity="center"
+            android:text="Please enter the correct email. Email will be used to login and reset password if you do not remember.\nWe will send a password confirmation via this email if you forget your password."
+            android:paddingHorizontal="20dp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Enter name"
+            android:layout_marginHorizontal="30dp"
+            android:paddingHorizontal="10dp"
+            android:background="#FFF"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtRegName"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Enter phone"
+            android:inputType="number"
+            android:layout_marginHorizontal="30dp"
+            android:paddingHorizontal="10dp"
+            android:background="#FFF"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtRegPhone"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginHorizontal="30dp"
+            android:paddingHorizontal="10dp"
+            android:background="#FFF"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txtRegUsername"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginHorizontal="30dp"
+            android:paddingHorizontal="10dp"
+            android:background="#FFF"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txtRegPassword"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Sign Up"
+            android:textAllCaps="false"
+            android:backgroundTint="#0099FF"
+            android:id="@+id/btnRegister"/>
+    </LinearLayout>
+</LinearLayout>

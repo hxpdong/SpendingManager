@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "728753748702",
+    "firebase_url": "https://spending-manager-9444f-default-rtdb.firebaseio.com",
+    "project_id": "spending-manager-9444f",
+    "storage_bucket": "spending-manager-9444f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728753748702:android:3716485d6413a1583ee04f",
+        "android_client_info": {
+          "package_name": "com.example.spendingmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728753748702-j7fdc5aegvgrdv7qstm07pa5aedtv5mj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe7aeDdjeIiooBIt_uhEoKrsP1mUZ1Jms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728753748702-j7fdc5aegvgrdv7qstm07pa5aedtv5mj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
