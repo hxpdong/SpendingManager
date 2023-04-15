@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:backgroundTint="#0099FF"
+            android:backgroundTint="@color/main_color"
             android:layout_marginHorizontal="5dp"
             android:id="@+id/btnUptSave"/>
         <Button

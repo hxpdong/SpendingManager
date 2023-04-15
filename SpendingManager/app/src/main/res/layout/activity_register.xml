@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Have account? Login"
             android:textSize="20dp"
-            android:textColor="#0099FF"
+            android:textColor="@color/main_color"
             android:layout_marginVertical="20dp"/>
     </LinearLayout>
     <LinearLayout
@@ -113,7 +113,7 @@
             android:layout_marginTop="10dp"
             android:text="Sign Up"
             android:textAllCaps="false"
-            android:backgroundTint="#0099FF"
+            android:backgroundTint="@color/main_color"
             android:id="@+id/btnRegister"/>
     </LinearLayout>
 </LinearLayout>
