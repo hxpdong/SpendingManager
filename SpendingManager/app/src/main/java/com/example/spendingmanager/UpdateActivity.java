@@ -47,7 +47,7 @@ public class UpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update);
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#0099FF"));
+        ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.main_color));
         // Set BackgroundDrawable
         actionBar.setBackgroundDrawable(colorDrawable);
         mAuth = FirebaseAuth.getInstance();

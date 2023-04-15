@@ -39,7 +39,7 @@ public class EnterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enter);
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#0099FF"));
+        ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.main_color));
         // Set BackgroundDrawable
         actionBar.setBackgroundDrawable(colorDrawable);
 

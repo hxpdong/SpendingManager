@@ -36,7 +36,7 @@ public class UserInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_info);
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#0099FF"));
+        ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.main_color));
         // Set BackgroundDrawable
         actionBar.setBackgroundDrawable(colorDrawable);
         actionBar.setTitle("User Information");
