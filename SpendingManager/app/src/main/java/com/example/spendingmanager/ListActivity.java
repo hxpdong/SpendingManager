@@ -43,7 +43,7 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<Activities> list;
     ProgressDialog noti;
     int totalnet = 0, income = 0, spending = 0;
-    TextView ttnet, ttincome, ttspend;
+    TextView ttnet, ttincome, ttspend, loaddt;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_actionbar, menu);
@@ -122,7 +122,8 @@ public class ListActivity extends AppCompatActivity {
         ttincome = findViewById(R.id.ttincome);
         ttspend = findViewById(R.id.ttspending);
         ttnet = findViewById(R.id.nettotal);
-
+        loaddt = findViewById(R.id.txtloaddata);
+        loaddt.setVisibility(View.VISIBLE);
         recyclerView = findViewById(R.id.rcListItem);
         databaseReference = FirebaseDatabase.getInstance().getReference("Activities");
         Query query = databaseReference.orderByChild("ofUser").equalTo(user.getEmail());
@@ -135,6 +136,7 @@ public class ListActivity extends AppCompatActivity {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                loaddt.setVisibility(View.VISIBLE);
                 list.clear();
                 income = 0;
                 spending = 0;
@@ -158,6 +160,7 @@ public class ListActivity extends AppCompatActivity {
                 else ttnet.setTextColor(Color.parseColor("#339900"));
                 ttnet.setText(String.valueOf(totalnet) + "VND");
                 myAdapter.notifyDataSetChanged();
+                loaddt.setVisibility(View.GONE);
             }
 
             @Override
