@@ -29,6 +29,13 @@
             android:textColor="@color/main_color"
             android:layout_marginVertical="20dp"/>
     </LinearLayout>
+    <ImageButton
+        android:id="@+id/btnInfoReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:backgroundTint="@color/main_color"
+        app:srcCompat="@android:drawable/ic_dialog_info" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

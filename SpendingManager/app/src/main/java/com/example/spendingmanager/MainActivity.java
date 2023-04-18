@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,12 +31,24 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     FirebaseUser user;
+    ProgressDialog noti;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        noti = new ProgressDialog(MainActivity.this);
+        noti.setTitle("Assistant");
+        noti.setMessage("Use registered email and password to login");
+        noti.setButton(DialogInterface.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                noti.dismiss();//dismiss dialog
+            }
+        });
+        noti.setIcon(getResources().getDrawable(R.drawable.logo));
+        noti.setCancelable(true);
 
         usname = findViewById(R.id.txtLginUsername);
         uspasswd = findViewById(R.id.txtLginPassword);
@@ -97,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
         getinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Application to manage Spending", Toast.LENGTH_SHORT).show();
+                noti.show();
+                //Toast.makeText(MainActivity.this, "Use registered Email and Password to login", Toast.LENGTH_SHORT).show();
             }
         });
         sendResetPasswd = findViewById(R.id.sendResetPasswd);

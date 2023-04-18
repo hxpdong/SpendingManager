@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class EnterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
-    EditText txtname, txtamount;
+    EditText txtname, txtamount, txtNote;
     DatePicker datePicker;
     TimePicker timePicker;
     RadioButton rdincome, rdspending;
@@ -57,6 +57,7 @@ public class EnterActivity extends AppCompatActivity {
         timePicker = findViewById(R.id.txtTime);
         rdincome = findViewById(R.id.rdIncome);
         rdspending = findViewById(R.id.rdSpending);
+        txtNote = findViewById(R.id.txtEnterNote);
         btnsave = findViewById(R.id.btnSave);
         btnclear = findViewById(R.id.btnClear);
         timePicker.setIs24HourView(true);
@@ -78,8 +79,7 @@ public class EnterActivity extends AppCompatActivity {
         btnclear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
@@ -117,12 +117,15 @@ public class EnterActivity extends AppCompatActivity {
         String noteTime = sthour + ":" + stminute;
 
         int amount = Integer.parseInt(txtamount.getText().toString());
+        String notein = "null";
+        if (txtNote.getText().toString().isEmpty() || txtNote.getText().toString() == "") {
+            notein = "null";
+        }
+        else notein = txtNote.getText().toString();
 
-        Activities act = new Activities(name,type,noteDate, noteTime,amount, user.getEmail());
+        Activities act = new Activities(name,type,noteDate, noteTime,amount, user.getEmail(), notein);
         databaseReference.push().setValue(act);
         Toast.makeText(getApplicationContext(), "Activity inserted", Toast.LENGTH_SHORT).show();
         finish();
-        Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-        startActivity(intent);
     }
 }

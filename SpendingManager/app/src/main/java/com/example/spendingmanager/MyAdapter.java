@@ -75,6 +75,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         i.putExtra("amount", act.getAmount());
                         i.putExtra("ofuser", act.getOfUser());
                         i.putExtra("id", act.getId());
+                        i.putExtra("note", act.getNote());
                         context.startActivity(i);
                         return false;
                     }
@@ -91,6 +92,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         return false;
                     }
                 });
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, DetailActivity.class);
+                i.putExtra("name", act.getName());
+                i.putExtra("type", act.getType());
+                i.putExtra("date", act.getDate());
+                i.putExtra("time", act.getTime());
+                i.putExtra("amount", act.getAmount());
+                i.putExtra("ofuser", act.getOfUser());
+                i.putExtra("id", act.getId());
+                i.putExtra("note", act.getNote());
+                context.startActivity(i);
             }
         });
     }

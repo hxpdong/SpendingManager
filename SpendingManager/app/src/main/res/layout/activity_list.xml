@@ -15,62 +15,77 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints"
         android:padding="10dp">
+        <ImageButton
+            android:id="@+id/btnInfoList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/main_color"
+            app:srcCompat="@android:drawable/ic_dialog_info" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Total Income:"
-                android:textColor="#339900"
-                android:textSize="20dp"/>
-            <TextView
-                android:id="@+id/ttincome"
-                android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:background="@drawable/customborder"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0VND"
-                android:textColor="#339900"
-                android:gravity="right"
-                android:textSize="20dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Total Spending:"
-                android:textColor="#FF0000"
-                android:textSize="20dp"/>
-            <TextView
-                android:id="@+id/ttspending"
-                android:layout_width="fill_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Total Income:"
+                    android:textColor="#339900"
+                    android:textSize="20dp"/>
+                <TextView
+                    android:id="@+id/ttincome"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0VND"
+                    android:textColor="#339900"
+                    android:gravity="right"
+                    android:textSize="20dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0VND"
-                android:gravity="right"
-                android:textColor="#FF0000"
-                android:textSize="20dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Net Total:"
-                android:textStyle="bold|italic"
-                android:textColor="#000000"
-                android:textSize="20dp"/>
-            <TextView
-                android:id="@+id/nettotal"
-                android:layout_width="fill_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Total Spending:"
+                    android:textColor="#FF0000"
+                    android:textSize="20dp"/>
+                <TextView
+                    android:id="@+id/ttspending"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0VND"
+                    android:gravity="right"
+                    android:textColor="#FF0000"
+                    android:textSize="20dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0VND"
-                android:gravity="right"
-                android:textSize="20dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Net Total:"
+                    android:textStyle="bold|italic"
+                    android:textColor="#000000"
+                    android:textSize="20dp"/>
+                <TextView
+                    android:id="@+id/nettotal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0VND"
+                    android:gravity="right"
+                    android:textSize="20dp"/>
+            </LinearLayout>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -84,7 +99,7 @@
         android:id="@+id/btnToEnter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="40dp"
         android:clickable="true"
         android:backgroundTint="@color/main_color"

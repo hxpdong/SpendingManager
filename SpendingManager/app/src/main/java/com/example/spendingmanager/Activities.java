@@ -8,6 +8,15 @@ public class Activities {
     int amount;
     String ofUser;
     String id;
+    String note;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     public String getId() {
         return id;
@@ -75,13 +84,14 @@ public class Activities {
 
     }
 
-    public Activities(String name, int type, String date, String time, int amount, String ofUser) {
+    public Activities(String name, int type, String date, String time, int amount, String ofUser, String note) {
         this.name = name;
         this.type = type;
         this.date = date;
         this.time = time;
         this.amount = amount;
         this.ofUser = ofUser;
+        this.note = note;
     }
 
 

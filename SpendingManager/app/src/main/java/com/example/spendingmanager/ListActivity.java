@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +29,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ListActivity extends AppCompatActivity {
     FloatingActionButton toenter;
@@ -36,7 +41,7 @@ public class ListActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     MyAdapter myAdapter;
     ArrayList<Activities> list;
-
+    ProgressDialog noti;
     int totalnet = 0, income = 0, spending = 0;
     TextView ttnet, ttincome, ttspend;
     @Override
@@ -92,6 +97,17 @@ public class ListActivity extends AppCompatActivity {
         ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.main_color));
         // Set BackgroundDrawable
         actionBar.setBackgroundDrawable(colorDrawable);
+        noti = new ProgressDialog(ListActivity.this);
+        noti.setTitle("Assistant");
+        noti.setMessage("To update/delete an activity, press and hold this activity.\n\nTo see detail an activity, click on this activity.");
+        noti.setButton(DialogInterface.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                noti.dismiss();//dismiss dialog
+            }
+        });
+        noti.setIcon(getResources().getDrawable(R.drawable.logo));
+        noti.setCancelable(true);
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -128,6 +144,7 @@ public class ListActivity extends AppCompatActivity {
                     act.setId(dataSnapshot.getKey());
                     list.add(act);
                 }
+                Collections.reverse(list);
                 for (int i = 0; i< list.size(); i++){
                     if(list.get(i).getType() == 1)
                         income = income + list.get(i).getAmount();
@@ -155,9 +172,16 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ListActivity.this, EnterActivity.class);
                 startActivity(intent);
-                finish();
+                
             }
         });
 
+        findViewById(R.id.btnInfoList).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noti.show();
+                //Toast.makeText(getApplicationContext(), "To update/delete an activity, press and hold this activity", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

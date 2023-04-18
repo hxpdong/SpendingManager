@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,12 +32,25 @@ public class RegisterActivity extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
+    ProgressDialog noti;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        noti = new ProgressDialog(RegisterActivity.this);
+        noti.setTitle("Assistant");
+        noti.setMessage("The app will use email and password to create account");
+        noti.setButton(DialogInterface.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                noti.dismiss();//dismiss dialog
+            }
+        });
+        noti.setIcon(getResources().getDrawable(R.drawable.logo));
+        noti.setCancelable(true);
+
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
         turnmain = findViewById(R.id.btnTurnMain);
@@ -91,13 +106,19 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
-                                    finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(RegisterActivity.this, "Authentcation Failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
+            }
+        });
+        findViewById(R.id.btnInfoReg).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noti.show();
+                //Toast.makeText(getApplicationContext(), "The app will use email and password to create account", Toast.LENGTH_SHORT).show();
             }
         });
     }

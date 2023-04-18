@@ -3,6 +3,7 @@ package com.example.spendingmanager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,16 +32,17 @@ import java.util.List;
 public class UpdateActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
-    EditText txtname, txtamount;
+    EditText txtname, txtamount , txtnote;
     DatePicker datePicker;
     TimePicker timePicker;
     RadioButton rdincome, rdspending;
     Button btnsave, btnclear;
-    String name, date, time, id;
+    String name, date, time, id, note;
     int type, amount;
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
     Activity activityInfo;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,16 +68,20 @@ public class UpdateActivity extends AppCompatActivity {
         btnsave = findViewById(R.id.btnUptSave);
         btnclear = findViewById(R.id.btnUptClear);
         timePicker.setIs24HourView(true);
-
+        txtnote = findViewById(R.id.txtRegNote);
         name = getIntent().getStringExtra("name");
         type = getIntent().getIntExtra("type", 1);
         date = getIntent().getStringExtra("date");
         time = getIntent().getStringExtra("time");
         amount = getIntent().getIntExtra("amount", 0);
         id = getIntent().getStringExtra("id");
-
+        note = getIntent().getStringExtra("note");
         txtname.setText(name);
         txtamount.setText(String.valueOf(amount));
+        if (note == "null"){
+            txtnote.setText("");
+        }
+        else txtnote.setText(note);
         if(type == 1) rdincome.setChecked(true);
         else if (type ==2) rdspending.setChecked(true);
 
@@ -116,8 +122,8 @@ public class UpdateActivity extends AppCompatActivity {
         btnclear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-                startActivity(intent);
+
+                finish();
             }
         });
     }private void updateData(){
@@ -153,12 +159,15 @@ public class UpdateActivity extends AppCompatActivity {
         String noteTime = sthour + ":" + stminute;
 
         int amount = Integer.parseInt(txtamount.getText().toString());
-        Activities act = new Activities(name,type,noteDate, noteTime,amount, user.getEmail());
+        String notein = "null";
+        if (txtnote.getText().toString().isEmpty() || txtnote.getText().toString() == "") {
+            notein = "null";
+        }
+        else notein = txtnote.getText().toString();
+        Activities act = new Activities(name,type,noteDate, noteTime,amount, user.getEmail(), notein);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Activities").child(id);
         databaseReference.setValue(act);
         Toast.makeText(getApplicationContext(), "Activity updated", Toast.LENGTH_SHORT).show();
         finish();
-        Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-        startActivity(intent);
     }
 }
