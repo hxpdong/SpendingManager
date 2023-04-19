@@ -54,46 +54,11 @@ public class UserInfoActivity extends AppCompatActivity {
         currentView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!Internet.isOnline(getApplicationContext())) {
-                    noti.setTitle("Internet connection");
-                    noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-                    noti.setCancelable(false);
-                    noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-                    noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            noti.dismiss();//dismiss dialog
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-                    noti.show();
-                }
+                InternetCheck();
                 return false;
             }
         });
-
-        if(!Internet.isOnline(getApplicationContext())){
-            noti.setTitle("Internet connection");
-            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-            noti.setCancelable(false);
-            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-            noti.setButton(DialogInterface.BUTTON_NEGATIVE,"Retry",  new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    noti.dismiss();//dismiss dialog
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            });
-            noti.show();
-            return;
-        }
+        InternetCheck();
 
         mail = findViewById(R.id.userMail);
         mail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
@@ -114,20 +79,40 @@ public class UserInfoActivity extends AppCompatActivity {
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(name.getText())){
-                    Toast.makeText(getApplicationContext(), "Enter name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(phone.getText())){
-                    Toast.makeText(getApplicationContext(), "Enter phone", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String namex = name.getText().toString();
-                String phonex = phone.getText().toString();
-                Users us = new Users(FirebaseAuth.getInstance().getCurrentUser().getEmail(),namex, phonex);
-                databaseReference.child(uid).setValue(us);
-                Toast.makeText(getApplicationContext(), "User information updated", Toast.LENGTH_SHORT).show();
+                if(Internet.isOnline(getApplicationContext())){
+                    if(TextUtils.isEmpty(name.getText())){
+                        Toast.makeText(getApplicationContext(), "Enter name", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(TextUtils.isEmpty(phone.getText())){
+                        Toast.makeText(getApplicationContext(), "Enter phone", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String namex = name.getText().toString();
+                    String phonex = phone.getText().toString();
+                    Users us = new Users(FirebaseAuth.getInstance().getCurrentUser().getEmail(),namex, phonex);
+                    databaseReference.child(uid).setValue(us);
+                    Toast.makeText(getApplicationContext(), "User information updated", Toast.LENGTH_SHORT).show();
+                }else InternetCheck();
             }
         });
+    }
+    private void InternetCheck(){
+        if(!Internet.isOnline(getApplicationContext())) {
+            noti.setTitle("Internet connection");
+            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
+            noti.setCancelable(false);
+            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
+            noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    noti.dismiss();//dismiss dialog
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            noti.show();
+        }
     }
 }

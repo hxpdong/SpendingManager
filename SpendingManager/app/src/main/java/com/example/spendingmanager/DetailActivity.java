@@ -46,47 +46,11 @@ public class DetailActivity extends AppCompatActivity {
         currentView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!Internet.isOnline(getApplicationContext())) {
-                    noti.setTitle("Internet connection");
-                    noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-                    noti.setCancelable(false);
-                    noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-                    noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            noti.dismiss();//dismiss dialog
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-                    noti.show();
-                }
+                InternetCheck();
                 return false;
             }
         });
-
-        if(!Internet.isOnline(getApplicationContext())){
-            noti.setTitle("Internet connection");
-            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-            noti.setCancelable(false);
-            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-            noti.setButton(DialogInterface.BUTTON_NEGATIVE,"Retry",  new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    noti.dismiss();//dismiss dialog
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            });
-            noti.show();
-            return;
-        }
+        InternetCheck();
 
         name.setText(getname);
         if(gettype == 1) type.setText("Income");
@@ -106,17 +70,37 @@ public class DetailActivity extends AppCompatActivity {
         btnMoveUpt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), UpdateActivity.class);
-                i.putExtra("name", getname);
-                i.putExtra("type", gettype);
-                i.putExtra("date", getdate);
-                i.putExtra("time", gettime);
-                i.putExtra("amount", getamount);
-                i.putExtra("id", getid);
-                i.putExtra("note", getnote);
-                startActivity(i);
-                finish();
+                if(Internet.isOnline(getApplicationContext())){
+                    Intent i = new Intent(getApplicationContext(), UpdateActivity.class);
+                    i.putExtra("name", getname);
+                    i.putExtra("type", gettype);
+                    i.putExtra("date", getdate);
+                    i.putExtra("time", gettime);
+                    i.putExtra("amount", getamount);
+                    i.putExtra("id", getid);
+                    i.putExtra("note", getnote);
+                    startActivity(i);
+                    finish();
+                } else InternetCheck();
             }
         });
+    }
+    private void InternetCheck(){
+        if(!Internet.isOnline(getApplicationContext())) {
+            noti.setTitle("Internet connection");
+            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
+            noti.setCancelable(false);
+            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
+            noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    noti.dismiss();//dismiss dialog
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            noti.show();
+        }
     }
 }

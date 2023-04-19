@@ -55,47 +55,11 @@ public class EnterActivity extends AppCompatActivity {
         currentView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!Internet.isOnline(getApplicationContext())) {
-                    noti.setTitle("Internet connection");
-                    noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-                    noti.setCancelable(false);
-                    noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-                    noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            noti.dismiss();//dismiss dialog
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-                    noti.show();
-                }
+                InternetCheck();
                 return false;
             }
         });
-
-        if(!Internet.isOnline(getApplicationContext())){
-            noti.setTitle("Internet connection");
-            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-            noti.setCancelable(false);
-            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-            noti.setButton(DialogInterface.BUTTON_NEGATIVE,"Retry",  new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    noti.dismiss();//dismiss dialog
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            });
-            noti.show();
-            return;
-        }
+        InternetCheck();
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -119,15 +83,18 @@ public class EnterActivity extends AppCompatActivity {
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(txtname.getText())){
-                    Toast.makeText(getApplicationContext(), "Enter activity name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(txtamount.getText())){
-                    Toast.makeText(getApplicationContext(), "Enter amount", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                insertActivityData();
+                if(Internet.isOnline(getApplicationContext())){
+                    if(TextUtils.isEmpty(txtname.getText())){
+                        Toast.makeText(getApplicationContext(), "Enter activity name", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(TextUtils.isEmpty(txtamount.getText())){
+                        Toast.makeText(getApplicationContext(), "Enter amount", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    insertActivityData();
+                }else InternetCheck();
+
             }
         });
         btnclear.setOnClickListener(new View.OnClickListener() {
@@ -181,5 +148,23 @@ public class EnterActivity extends AppCompatActivity {
         databaseReference.push().setValue(act);
         Toast.makeText(getApplicationContext(), "Activity inserted", Toast.LENGTH_SHORT).show();
         finish();
+    }
+    private void InternetCheck(){
+        if(!Internet.isOnline(getApplicationContext())) {
+            noti.setTitle("Internet connection");
+            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
+            noti.setCancelable(false);
+            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
+            noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    noti.dismiss();//dismiss dialog
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            noti.show();
+        }
     }
 }

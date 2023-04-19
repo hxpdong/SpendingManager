@@ -62,47 +62,11 @@ public class MainActivity extends AppCompatActivity {
         currentView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!Internet.isOnline(getApplicationContext())) {
-                    noti.setTitle("Internet connection");
-                    noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-                    noti.setCancelable(false);
-                    noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-                    noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            noti.dismiss();//dismiss dialog
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-                    noti.show();
-                }
+                InternetCheck();
                 return false;
             }
         });
-
-        if(!Internet.isOnline(getApplicationContext())){
-            noti.setTitle("Internet connection");
-            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-            noti.setCancelable(false);
-            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-            noti.setButton(DialogInterface.BUTTON_NEGATIVE,"Retry",  new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    noti.dismiss();//dismiss dialog
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            });
-            noti.show();
-            return;
-        }
+        InternetCheck();
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -120,35 +84,37 @@ public class MainActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                if(Internet.isOnline(getApplicationContext())){
+                   /*Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);*/
-                String email, password;
-                email = String.valueOf(usname.getText());
-                password =String.valueOf(uspasswd.getText());
+                    String email, password;
+                    email = String.valueOf(usname.getText());
+                    password =String.valueOf(uspasswd.getText());
 
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(MainActivity.this, "Enter email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(MainActivity.this, "Enter password",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }else {
-                            Toast.makeText(MainActivity.this, "Authenication failed.", Toast.LENGTH_SHORT).show();
-                        }
+                    if(TextUtils.isEmpty(email)){
+                        Toast.makeText(MainActivity.this, "Enter email", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                });
+                    if(TextUtils.isEmpty(password)){
+                        Toast.makeText(MainActivity.this, "Enter password",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            }else {
+                                Toast.makeText(MainActivity.this, "Authenication failed.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else InternetCheck();
             }
         });
 
@@ -156,9 +122,11 @@ public class MainActivity extends AppCompatActivity {
         btnregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                finish();
+                if(Internet.isOnline(getApplicationContext())){
+                    Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else InternetCheck();
             }
         });
         getinfo = findViewById(R.id.btnInfoApp);
@@ -173,22 +141,42 @@ public class MainActivity extends AppCompatActivity {
         sendResetPasswd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(usname.getText())){
-                    Toast.makeText(getApplicationContext(), "Please enter email to reset password!!!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mAuth.sendPasswordResetEmail(usname.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                if(Internet.isOnline(getApplicationContext())){
+                    if(TextUtils.isEmpty(usname.getText())){
+                        Toast.makeText(getApplicationContext(), "Please enter email to reset password!!!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    mAuth.sendPasswordResetEmail(usname.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }else InternetCheck();
             }
         });
+    }
+    private void InternetCheck(){
+        if(!Internet.isOnline(getApplicationContext())) {
+            noti.setTitle("Internet connection");
+            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
+            noti.setCancelable(false);
+            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
+            noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    noti.dismiss();//dismiss dialog
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            noti.show();
+        }
     }
 }

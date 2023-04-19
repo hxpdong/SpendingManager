@@ -67,16 +67,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 contextMenu.add(0, R.id.update, 0, "Update").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                        Intent i = new Intent(context, UpdateActivity.class);
-                        i.putExtra("name", act.getName());
-                        i.putExtra("type", act.getType());
-                        i.putExtra("date", act.getDate());
-                        i.putExtra("time", act.getTime());
-                        i.putExtra("amount", act.getAmount());
-                        i.putExtra("ofuser", act.getOfUser());
-                        i.putExtra("id", act.getId());
-                        i.putExtra("note", act.getNote());
-                        context.startActivity(i);
+                        if(Internet.isOnline(context.getApplicationContext())){
+                            Intent i = new Intent(context, UpdateActivity.class);
+                            i.putExtra("name", act.getName());
+                            i.putExtra("type", act.getType());
+                            i.putExtra("date", act.getDate());
+                            i.putExtra("time", act.getTime());
+                            i.putExtra("amount", act.getAmount());
+                            i.putExtra("ofuser", act.getOfUser());
+                            i.putExtra("id", act.getId());
+                            i.putExtra("note", act.getNote());
+                            context.startActivity(i);
+                        }
                         return false;
                     }
                 });
@@ -84,11 +86,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                     @Override
                     public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                        DatabaseReference databaseReference =
-                                FirebaseDatabase.getInstance().getReference().child("Activities").child(act.getId());
-                        databaseReference.removeValue();
-                        list.remove(holder.getAdapterPosition());
-                        notifyDataSetChanged();
+                        if(Internet.isOnline(context.getApplicationContext())){
+                            DatabaseReference databaseReference =
+                                    FirebaseDatabase.getInstance().getReference().child("Activities").child(act.getId());
+                            databaseReference.removeValue();
+                            list.remove(holder.getAdapterPosition());
+                            notifyDataSetChanged();
+                        }
                         return false;
                     }
                 });
@@ -98,16 +102,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, DetailActivity.class);
-                i.putExtra("name", act.getName());
-                i.putExtra("type", act.getType());
-                i.putExtra("date", act.getDate());
-                i.putExtra("time", act.getTime());
-                i.putExtra("amount", act.getAmount());
-                i.putExtra("ofuser", act.getOfUser());
-                i.putExtra("id", act.getId());
-                i.putExtra("note", act.getNote());
-                context.startActivity(i);
+                if(Internet.isOnline(context.getApplicationContext())){
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("name", act.getName());
+                    i.putExtra("type", act.getType());
+                    i.putExtra("date", act.getDate());
+                    i.putExtra("time", act.getTime());
+                    i.putExtra("amount", act.getAmount());
+                    i.putExtra("ofuser", act.getOfUser());
+                    i.putExtra("id", act.getId());
+                    i.putExtra("note", act.getNote());
+                    context.startActivity(i);
+                }
             }
         });
     }

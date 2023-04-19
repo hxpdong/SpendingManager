@@ -59,47 +59,11 @@ public class RegisterActivity extends AppCompatActivity {
         currentView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(!Internet.isOnline(getApplicationContext())) {
-                    noti.setTitle("Internet connection");
-                    noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-                    noti.setCancelable(false);
-                    noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-                    noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            noti.dismiss();//dismiss dialog
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-                    noti.show();
-                }
+                InternetCheck();
                 return false;
             }
         });
-
-        if(!Internet.isOnline(getApplicationContext())){
-            noti.setTitle("Internet connection");
-            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
-            noti.setCancelable(false);
-            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
-            noti.setButton(DialogInterface.BUTTON_NEGATIVE,"Retry",  new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    noti.dismiss();//dismiss dialog
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-            });
-            noti.show();
-            return;
-        }
+        InternetCheck();
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -122,46 +86,49 @@ public class RegisterActivity extends AppCompatActivity {
         btnregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String usname, uspasswd, uname, uphone;
-                usname = String.valueOf(username.getText());
-                uspasswd = String.valueOf(passwd.getText());
-                uname = String.valueOf(name.getText());
-                uphone = String.valueOf(phone.getText());
-                if(TextUtils.isEmpty(uname)){
-                    Toast.makeText(RegisterActivity.this, "Please enter full name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(uphone)){
-                    Toast.makeText(RegisterActivity.this, "Please enter phone number", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(usname)){
-                    Toast.makeText(RegisterActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(uspasswd)){
-                    Toast.makeText(RegisterActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                if(Internet.isOnline(getApplicationContext())){
+                    String usname, uspasswd, uname, uphone;
+                    usname = String.valueOf(username.getText());
+                    uspasswd = String.valueOf(passwd.getText());
+                    uname = String.valueOf(name.getText());
+                    uphone = String.valueOf(phone.getText());
+                    if(TextUtils.isEmpty(uname)){
+                        Toast.makeText(RegisterActivity.this, "Please enter full name", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(TextUtils.isEmpty(uphone)){
+                        Toast.makeText(RegisterActivity.this, "Please enter phone number", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(TextUtils.isEmpty(usname)){
+                        Toast.makeText(RegisterActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(TextUtils.isEmpty(uspasswd)){
+                        Toast.makeText(RegisterActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                Users us = new Users(usname, uname, uphone);
-                databaseReference.push().setValue(us);
+                    Users us = new Users(usname, uname, uphone);
+                    databaseReference.push().setValue(us);
 
-                mAuth.createUserWithEmailAndPassword(usname, uspasswd)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(RegisterActivity.this, "Authentcation Failed", Toast.LENGTH_SHORT).show();
+                    mAuth.createUserWithEmailAndPassword(usname, uspasswd)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(RegisterActivity.this, "Authentcation Failed", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }else InternetCheck();
+
             }
         });
         findViewById(R.id.btnInfoReg).setOnClickListener(new View.OnClickListener() {
@@ -171,5 +138,23 @@ public class RegisterActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "The app will use email and password to create account", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void InternetCheck(){
+        if(!Internet.isOnline(getApplicationContext())) {
+            noti.setTitle("Internet connection");
+            noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
+            noti.setCancelable(false);
+            noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
+            noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    noti.dismiss();//dismiss dialog
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            noti.show();
+        }
     }
 }
