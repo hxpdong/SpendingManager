@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +50,32 @@ public class UserInfoActivity extends AppCompatActivity {
         actionBar.setTitle("User Information");
 
         noti = new ProgressDialog(getApplicationContext());
-        if(!isOnline()){
+        View currentView = this.getWindow().getDecorView().findViewById(android.R.id.content);
+        currentView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(!Internet.isOnline(getApplicationContext())) {
+                    noti.setTitle("Internet connection");
+                    noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
+                    noti.setCancelable(false);
+                    noti.setIcon(getResources().getDrawable(R.drawable.nointernet));
+                    noti.setButton(DialogInterface.BUTTON_NEGATIVE, "Retry", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            noti.dismiss();//dismiss dialog
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
+                    });
+                    noti.show();
+                }
+                return false;
+            }
+        });
+
+        if(!Internet.isOnline(getApplicationContext())){
             noti.setTitle("Internet connection");
             noti.setMessage("You are not connecting to the Internet.\n\nPlease check Internet connection and try again.");
             noti.setCancelable(false);
@@ -103,13 +129,5 @@ public class UserInfoActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "User information updated", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    private Boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if(ni != null && ni.isConnected()) {
-            return true;
-        }
-        return false;
     }
 }
